@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import GameThumbnail from "./GameThumbnail";
@@ -57,6 +58,7 @@ function money(n: number) {
 }
 
 export default function GameDetailPage(props: GameDetailProps) {
+  const router = useRouter();
   const [selectedNom, setSelectedNom] = useState(0);
   const [selectedPay, setSelectedPay] = useState(0);
   const [fieldValues, setFieldValues] = useState<string[]>(props.fields.map(() => ""));
@@ -89,10 +91,24 @@ export default function GameDetailPage(props: GameDetailProps) {
     if (hasError) {
       setBuyMsg("Lengkapi dulu data akun kamu di langkah 1.");
       setBuyMsgColor("#E5533D");
-    } else {
-      setBuyMsg("Pesanan siap — kamu akan diarahkan ke halaman pembayaran.");
-      setBuyMsgColor("#5AE0BF");
+      return;
     }
+
+    const nominal = props.nominals[selectedNom];
+    const payment = payments[selectedPay];
+    const params = new URLSearchParams({
+      game: props.gameName,
+      item: nominal.label,
+      price: String(nominal.price),
+      payment: payment?.label || "QRIS",
+      fee: String(payment?.fee || 0),
+    });
+    // Add field values
+    props.fields.forEach((f, i) => {
+      if (fieldValues[i]) params.set(f.label, fieldValues[i]);
+    });
+
+    router.push(`/checkout?${params.toString()}`);
   }
 
   return (
