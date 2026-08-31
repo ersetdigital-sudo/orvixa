@@ -3,6 +3,7 @@
 import { Suspense, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -25,9 +26,21 @@ function CountdownTimer({ initialMinutes = 15 }: { initialMinutes?: number }) {
   );
 }
 
-function QRISPaymentSection({ total, paymentMethod }: { total: number; paymentMethod: string }) {
+function PaymentSection({ total, paymentMethod, gameName, itemName }: { total: number; paymentMethod: string; gameName: string; itemName: string }) {
   const [copied, setCopied] = useState(false);
-  const [status] = useState<"waiting" | "success">("waiting");
+  const [qrisImage, setQrisImage] = useState("");
+  const [waNumber, setWaNumber] = useState("6281234567890");
+
+  useEffect(() => {
+    fetch("/api/payments")
+      .then((r) => r.json())
+      .then((data) => { if (data.qris?.image_url) setQrisImage(data.qris.image_url); })
+      .catch(() => {});
+    fetch("/api/whatsapp")
+      .then((r) => r.json())
+      .then((data) => { if (data.number) setWaNumber(data.number); })
+      .catch(() => {});
+  }, []);
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(String(total)).then(() => {
@@ -38,6 +51,13 @@ function QRISPaymentSection({ total, paymentMethod }: { total: number; paymentMe
 
   const formatRupiah = (n: number) => `Rp${n.toLocaleString("id-ID")}`;
 
+  function handleSudahBayar() {
+    const msg = encodeURIComponent(
+      `Halo, saya sudah melakukan pembayaran.\n\nGame: ${gameName}\nItem: ${itemName}\nTotal: ${formatRupiah(total)}\nMetode: ${paymentMethod}\n\nMohon dicek ya, terima kasih!`
+    );
+    window.open(`https://wa.me/${waNumber}?text=${msg}`, "_blank");
+  }
+
   return (
     <div className="card p-6 md:p-8">
       <h2 className="font-display font-bold text-[20px] md:text-[22px]">
@@ -46,28 +66,31 @@ function QRISPaymentSection({ total, paymentMethod }: { total: number; paymentMe
 
       <div className="mt-4 flex items-center gap-2">
         <span className="relative flex h-2.5 w-2.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: status === "waiting" ? "var(--color-primary)" : "#22C55E" }} />
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5" style={{ background: status === "waiting" ? "var(--color-primary)" : "#22C55E" }} />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: "var(--color-primary)" }} />
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5" style={{ background: "var(--color-primary)" }} />
         </span>
-        <span className="text-[14px]" style={{ color: "var(--color-muted)" }}>
-          Menunggu pembayaran...
-        </span>
+        <span className="text-[14px]" style={{ color: "var(--color-muted)" }}>Menunggu pembayaran...</span>
       </div>
 
+      {/* QR Code */}
       <div className="mt-6 flex justify-center">
-        <div className="w-[240px] h-[240px] rounded-[16px] flex items-center justify-center" style={{ background: "var(--color-surface-2)", border: "1px solid var(--color-line)" }}>
-          <div className="flex flex-col items-center gap-3">
-            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--color-muted)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="7" height="7" />
-              <rect x="14" y="3" width="7" height="7" />
-              <rect x="3" y="14" width="7" height="7" />
-              <rect x="14" y="14" width="3" height="3" />
-              <line x1="21" y1="14" x2="21" y2="14.01" />
-              <line x1="21" y1="21" x2="21" y2="21.01" />
-              <line x1="14" y1="21" x2="14" y2="21.01" />
-            </svg>
-            <span className="text-[13px]" style={{ color: "var(--color-muted)" }}>QR Code</span>
-          </div>
+        <div className="w-[260px] h-[260px] rounded-[16px] flex items-center justify-center overflow-hidden" style={{ background: "#fff", border: "1px solid var(--color-line)" }}>
+          {qrisImage ? (
+            <Image src={qrisImage} alt="QRIS Code" width={260} height={260} className="w-full h-full object-contain" />
+          ) : (
+            <div className="flex flex-col items-center gap-3">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+                <rect x="14" y="14" width="3" height="3" />
+                <line x1="21" y1="14" x2="21" y2="14.01" />
+                <line x1="21" y1="21" x2="21" y2="21.01" />
+                <line x1="14" y1="21" x2="14" y2="21.01" />
+              </svg>
+              <span className="text-[13px]" style={{ color: "#999" }}>Belum ada QRIS</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -108,7 +131,7 @@ function QRISPaymentSection({ total, paymentMethod }: { total: number; paymentMe
       </div>
 
       <div className="mt-7 space-y-3">
-        <button className="btn btn-ghost w-full h-12 text-[15px]">Saya Sudah Bayar</button>
+        <button onClick={handleSudahBayar} className="btn btn-ghost w-full h-12 text-[15px]">Saya Sudah Bayar</button>
         <Link href="/" className="block text-center text-[13px] hover:underline" style={{ color: "var(--color-muted)" }}>
           Kembali ke beranda
         </Link>
@@ -123,7 +146,6 @@ function OrderSummary({ game, item, payment, fee, total }: { game: string; item:
   return (
     <div className="card p-6 md:p-7">
       <h2 className="font-display font-bold text-[18px] md:text-[20px]">Ringkasan pesanan</h2>
-
       <div className="mt-5 space-y-3">
         {[
           { label: "Game", value: game },
@@ -137,16 +159,13 @@ function OrderSummary({ game, item, payment, fee, total }: { game: string; item:
           </div>
         ))}
       </div>
-
       <div className="my-5" style={{ borderTop: "1px solid var(--color-line)" }} />
-
       <div className="flex justify-between items-baseline">
         <span className="text-[14px]" style={{ color: "var(--color-muted)" }}>Total bayar</span>
         <span className="font-display font-bold text-[24px]" style={{ color: "var(--color-primary)" }}>
           {formatRupiah(total)}
         </span>
       </div>
-
       <p className="mt-3 text-center text-[12px]" style={{ color: "#22C55E" }}>
         Pesanan siap — kamu akan diarahkan ke halaman pembayaran.
       </p>
@@ -175,7 +194,6 @@ function TrustFooter() {
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
-
   const gameName = searchParams.get("game") || "Game";
   const itemName = searchParams.get("item") || "Item";
   const price = Number(searchParams.get("price")) || 0;
@@ -193,11 +211,9 @@ function CheckoutContent() {
             <span className="mx-2">/</span>
             <span style={{ color: "var(--color-text)" }}>Checkout</span>
           </nav>
-
           <h1 className="font-display font-bold text-[24px] md:text-[28px] mb-8">Pembayaran</h1>
-
           <div className="grid lg:grid-cols-[1fr_380px] gap-6 items-start">
-            <QRISPaymentSection total={total} paymentMethod={paymentMethod} />
+            <PaymentSection total={total} paymentMethod={paymentMethod} gameName={gameName} itemName={itemName} />
             <div className="lg:sticky lg:top-24">
               <OrderSummary game={gameName} item={itemName} payment={paymentMethod} fee={fee} total={total} />
               <TrustFooter />
