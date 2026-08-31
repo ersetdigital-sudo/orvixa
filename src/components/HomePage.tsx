@@ -98,7 +98,7 @@ export default function HomePage() {
 
     function restart() {
       if (timerRef.current) clearInterval(timerRef.current);
-      timerRef.current = setInterval(() => go(currentSlide + 1), 6000);
+      timerRef.current = setInterval(() => go(currentSlide + 1), 5000);
     }
 
     restart();
@@ -124,12 +124,6 @@ export default function HomePage() {
                 </Link>
               ))}
             </div>
-            <button className="banner-nav left-2 md:left-3" aria-label="Banner sebelumnya" onClick={() => setCurrentSlide(currentSlide - 1)}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F3F0EA" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m14.5 5-7 7 7 7" /></svg>
-            </button>
-            <button className="banner-nav right-2 md:right-3" aria-label="Banner berikutnya" onClick={() => setCurrentSlide(currentSlide + 1)}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F3F0EA" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m9.5 5 7 7-7 7" /></svg>
-            </button>
             <div className="flex justify-center gap-2 mt-3.5">
               {BANNERS.map((_, i) => (
                 <button key={i} className="banner-dot" aria-current={i === currentSlide ? "true" : "false"} onClick={() => setCurrentSlide(i)} />
