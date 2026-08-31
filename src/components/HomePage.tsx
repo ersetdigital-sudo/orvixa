@@ -54,12 +54,12 @@ const GAMES = [
 ];
 
 const POPULAR_GAMES = [
-  { href: "/mobile-legends", src: "/images/3f4dc619-cefc-4b2a-9dce-54e6ef9c20da.jpg", alt: "Top up Mobile Legends diamond", name: "Mobile Legends", item: "Diamond" },
-  { href: "/free-fire", src: "/images/991b8eb7-cf5a-491a-9947-1a2ba05b45d3.jpg", alt: "Top up Free Fire diamond", name: "Free Fire", item: "Diamond" },
-  { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile UC", name: "PUBG Mobile", item: "UC" },
-  { href: "#", src: "/images/970f7df9-0687-451c-b253-4557afead4fe.jpg", alt: "Top up Honor of Kings token", name: "Honor of Kings", item: "Token" },
-  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile CP", name: "Call of Duty Mobile", item: "CP", contain: true },
-  { href: "/genshin-impact", src: "/images/7eb8ddc8-60a4-4794-85bd-ed0fd653defd.jpg", alt: "Top up Genshin Impact", name: "Genshin Impact", item: "Crystal" },
+  { href: "/mobile-legends", src: "/images/3f4dc619-cefc-4b2a-9dce-54e6ef9c20da.jpg", alt: "Top up Mobile Legends diamond", name: "Mobile Legends", publisher: "Moonton", gradient: "linear-gradient(135deg, #2a1a3e 0%, #1a2a4e 100%)" },
+  { href: "/magic-chess-go-go", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788148894/aj4q0rohtu1mfvalbtob.webp", alt: "Top up Magic Chess Go Go token", name: "Magic Chess Go Go", publisher: "Vizta Games", gradient: "linear-gradient(135deg, #4a2a1a 0%, #3a2a2a 100%)" },
+  { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile UC", name: "PUBG Mobile", publisher: "Tencent Games", gradient: "linear-gradient(135deg, #1a3a5a 0%, #1a2a4a 100%)" },
+  { href: "/free-fire", src: "/images/991b8eb7-cf5a-491a-9947-1a2ba05b45d3.jpg", alt: "Top up Free Fire diamond", name: "Free Fire", publisher: "Garena", gradient: "linear-gradient(135deg, #3a1a2a 0%, #2a1a3a 100%)" },
+  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile CP", name: "Call of Duty Mobile", publisher: "Activision", gradient: "linear-gradient(135deg, #2a2a1a 0%, #1a2a2a 100%)" },
+  { href: "/genshin-impact", src: "/images/7eb8ddc8-60a4-4794-85bd-ed0fd653defd.jpg", alt: "Top up Genshin Impact Crystal", name: "Genshin Impact", publisher: "HoYoverse", gradient: "linear-gradient(135deg, #1a2a3a 0%, #2a1a2a 100%)" },
 ];
 
 const PAYMENTS = ["QRIS", "GoPay", "DANA", "OVO", "ShopeePay", "LinkAja", "Virtual Account", "Transfer Bank"];
@@ -290,16 +290,28 @@ export default function HomePage() {
             <div>
               <p className="eyebrow">Discovery</p>
               <h2 className="font-display font-bold text-[24px] md:text-[30px] mt-1.5">Top Up Game Terlaris</h2>
+              <p className="mt-2 text-[14px]" style={{ color: "var(--color-muted)" }}>Berikut adalah beberapa produk yang paling populer saat ini</p>
             </div>
-            <Link href="#" className="btn btn-ghost h-10 px-4 text-sm">Lihat Semua</Link>
           </div>
-          <div className="scroller mt-6">
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {POPULAR_GAMES.map((g, i) => (
-              <Link key={i} href={g.href} className="game-card">
-                <Image loading="lazy" className={`thumb ${g.contain ? "thumb-contain" : ""}`} src={g.src} alt={g.alt} width={400} height={250} />
-                <div className="p-3">
-                  <h3 className="font-display font-semibold text-[13px]">{g.name}</h3>
-                  <p className="text-[11px] mt-1" style={{ color: "var(--color-muted)" }}>{g.item}</p>
+              <Link
+                key={i}
+                href={g.href}
+                className="flex items-center gap-4 p-3 rounded-[14px] transition-all hover:scale-[1.02]"
+                style={{ background: g.gradient, border: "1px solid var(--color-line)" }}
+              >
+                <Image
+                  loading="lazy"
+                  className="w-[72px] h-[72px] rounded-[10px] object-cover shrink-0"
+                  src={g.src}
+                  alt={g.alt}
+                  width={72}
+                  height={72}
+                />
+                <div>
+                  <h3 className="font-display font-semibold text-[15px] text-white">{g.name}</h3>
+                  <p className="text-[13px] mt-0.5" style={{ color: "rgba(255,255,255,.6)" }}>{g.publisher}</p>
                 </div>
               </Link>
             ))}
