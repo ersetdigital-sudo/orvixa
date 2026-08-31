@@ -100,11 +100,9 @@ export default function Footer({ variant = "home" }: FooterProps) {
           <ul className="mt-4 space-y-2.5 text-[14px]" style={{ color: "var(--color-muted)" }}>
             {variant === "home" ? (
               <>
-                <li><Link href="#" className="hover:text-white">Tentang Kami</Link></li>
-                <li><Link href="#" className="hover:text-white">Blog</Link></li>
-                <li><Link href="/#promo" className="hover:text-white">Promo</Link></li>
-                <li><Link href="#" className="hover:text-white">Syarat &amp; Ketentuan</Link></li>
-                <li><Link href="#" className="hover:text-white">Kebijakan Privasi</Link></li>
+                <li><Link href="/tentang-kami" className="hover:text-white">Tentang Kami</Link></li>
+                <li><Link href="/syarat-ketentuan" className="hover:text-white">Syarat &amp; Ketentuan</Link></li>
+                <li><Link href="/kebijakan-privasi" className="hover:text-white">Kebijakan Privasi</Link></li>
               </>
             ) : (
               <>
