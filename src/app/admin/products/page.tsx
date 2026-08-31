@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface Game {
@@ -12,22 +12,21 @@ interface Game {
   price: string;
 }
 
-const INITIAL_GAMES: Game[] = [
-  { id: "mobile-legends", name: "Mobile Legends", publisher: "Moonton", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151577/jlxfpwi1pkxmesccscp1.png", badge: "Best Seller", price: "Rp3.000" },
-  { id: "free-fire", name: "Free Fire", publisher: "Garena", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151808/fceguvbxqtm2hqlotcro.png", badge: "Hot", price: "Rp2.500" },
-  { id: "pubg-mobile", name: "PUBG Mobile", publisher: "Level Infinite", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151891/mngzis7bhlj3rihx5pee.png", badge: "", price: "Rp15.000" },
-  { id: "genshin-impact", name: "Genshin Impact", publisher: "HoYoverse", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788150221/rdbgqzffn1yqinzinjcd.png", badge: "Populer", price: "Rp16.000" },
-  { id: "magic-chess-go-go", name: "Magic Chess: Go Go", publisher: "Moonton", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788148894/aj4q0rohtu1mfvalbtob.webp", badge: "", price: "Rp5.000" },
-  { id: "call-of-duty-mobile", name: "Call of Duty Mobile", publisher: "Activision", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", badge: "", price: "Rp10.000" },
-];
-
 export default function ProductsPage() {
-  const [games, setGames] = useState<Game[]>(INITIAL_GAMES);
+  const [games, setGames] = useState<Game[]>([]);
+  const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Game | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [toast, setToast] = useState("");
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((r) => r.json())
+      .then((data) => { setGames(data); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, []);
 
   function showToast(msg: string) {
     setToast(msg);
@@ -52,23 +51,48 @@ export default function ProductsPage() {
     }
   }
 
-  function handleSave(game: Game) {
-    if (editing) {
-      setGames(games.map((g) => (g.id === editing.id ? game : g)));
-      showToast(`${game.name} berhasil diupdate`);
-    } else {
-      setGames([...games, { ...game, id: game.name.toLowerCase().replace(/[^a-z0-9]/g, "-") }]);
-      showToast(`${game.name} berhasil ditambahkan`);
+  async function handleSave(game: Game) {
+    try {
+      const res = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(game),
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        if (editing) {
+          setGames(games.map((g) => (g.id === editing.id ? updated : g)));
+          showToast(`${game.name} berhasil diupdate`);
+        } else {
+          setGames([...games, updated]);
+          showToast(`${game.name} berhasil ditambahkan`);
+        }
+        setEditing(null);
+        setIsAdding(false);
+      } else {
+        showToast("Gagal menyimpan");
+      }
+    } catch {
+      showToast("Gagal menyimpan");
     }
-    setEditing(null);
-    setIsAdding(false);
   }
 
-  function handleDelete(id: string) {
+  async function handleDelete(id: string) {
     const game = games.find((g) => g.id === id);
-    setGames(games.filter((g) => g.id !== id));
+    try {
+      const res = await fetch("/api/products", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        setGames(games.filter((g) => g.id !== id));
+        showToast(`${game?.name} berhasil dihapus`);
+      }
+    } catch {
+      showToast("Gagal menghapus");
+    }
     setConfirmDelete(null);
-    showToast(`${game?.name} berhasil dihapus`);
   }
 
   return (
@@ -76,7 +100,7 @@ export default function ProductsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display font-bold text-[24px] md:text-[28px]">Kelola Produk</h1>
-          <p className="mt-1 text-[14px]" style={{ color: "var(--color-muted)" }}>{games.length} game aktif</p>
+          <p className="mt-1 text-[14px]" style={{ color: "var(--color-muted)" }}>{loading ? "Loading..." : `${games.length} game aktif`}</p>
         </div>
         <button
           onClick={() => { setIsAdding(true); setEditing(null); }}
@@ -86,34 +110,25 @@ export default function ProductsPage() {
         </button>
       </div>
 
-      {/* Toast */}
       {toast && (
         <div className="fixed top-4 right-4 z-50 px-4 py-2.5 rounded-[10px] text-[13px] font-medium shadow-lg" style={{ background: "var(--color-primary)", color: "var(--color-primary-ink)" }}>
           {toast}
         </div>
       )}
 
-      {/* Confirm Delete Modal */}
       {confirmDelete && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/60">
           <div className="card p-6 max-w-[360px] w-full mx-4">
             <h3 className="font-display font-semibold text-[16px]">Hapus Game?</h3>
-            <p className="mt-2 text-[14px]" style={{ color: "var(--color-muted)" }}>
-              Game ini akan dihapus dari situs. Tindakan ini tidak dapat dibatalkan.
-            </p>
+            <p className="mt-2 text-[14px]" style={{ color: "var(--color-muted)" }}>Game ini akan dihapus dari situs. Tindakan ini tidak dapat dibatalkan.</p>
             <div className="mt-5 flex gap-3">
-              <button onClick={() => setConfirmDelete(null)} className="flex-1 h-10 rounded-[10px] text-[13px] font-medium" style={{ border: "1px solid var(--color-line)" }}>
-                Batal
-              </button>
-              <button onClick={() => handleDelete(confirmDelete)} className="flex-1 h-10 rounded-[10px] text-[13px] font-medium" style={{ background: "#EF4444", color: "white" }}>
-                Hapus
-              </button>
+              <button onClick={() => setConfirmDelete(null)} className="flex-1 h-10 rounded-[10px] text-[13px] font-medium" style={{ border: "1px solid var(--color-line)" }}>Batal</button>
+              <button onClick={() => handleDelete(confirmDelete)} className="flex-1 h-10 rounded-[10px] text-[13px] font-medium" style={{ background: "#EF4444", color: "white" }}>Hapus</button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Form Modal */}
       {(editing || isAdding) && (
         <FormModal
           game={editing}
@@ -124,7 +139,6 @@ export default function ProductsPage() {
         />
       )}
 
-      {/* Table */}
       <div className="mt-6 card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-[14px]">
@@ -151,9 +165,7 @@ export default function ProductsPage() {
                   <td className="px-5 py-3 hidden md:table-cell" style={{ color: "var(--color-muted)" }}>{game.publisher}</td>
                   <td className="px-5 py-3 hidden lg:table-cell">
                     {game.badge ? (
-                      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-medium" style={{ background: "rgba(239,163,38,.12)", color: "var(--color-primary)" }}>
-                        {game.badge}
-                      </span>
+                      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-medium" style={{ background: "rgba(239,163,38,.12)", color: "var(--color-primary)" }}>{game.badge}</span>
                     ) : (
                       <span className="text-[12px]" style={{ color: "var(--color-muted)" }}>—</span>
                     )}
@@ -161,20 +173,8 @@ export default function ProductsPage() {
                   <td className="px-5 py-3 hidden lg:table-cell" style={{ color: "var(--color-muted)" }}>{game.price}</td>
                   <td className="px-5 py-3 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={() => { setEditing(game); setIsAdding(false); }}
-                        className="px-3 py-1.5 rounded-[8px] text-[12px] font-medium hover:bg-white/5 transition-colors"
-                        style={{ color: "var(--color-primary)" }}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => setConfirmDelete(game.id)}
-                        className="px-3 py-1.5 rounded-[8px] text-[12px] font-medium hover:bg-white/5 transition-colors"
-                        style={{ color: "#F87171" }}
-                      >
-                        Hapus
-                      </button>
+                      <button onClick={() => { setEditing(game); setIsAdding(false); }} className="px-3 py-1.5 rounded-[8px] text-[12px] font-medium hover:bg-white/5 transition-colors" style={{ color: "var(--color-primary)" }}>Edit</button>
+                      <button onClick={() => setConfirmDelete(game.id)} className="px-3 py-1.5 rounded-[8px] text-[12px] font-medium hover:bg-white/5 transition-colors" style={{ color: "#F87171" }}>Hapus</button>
                     </div>
                   </td>
                 </tr>
@@ -211,10 +211,7 @@ function FormModal({
     const file = e.target.files?.[0];
     if (!file) return;
     const url = await onUpload(file);
-    if (url) {
-      setSrc(url);
-      setPreview(url);
-    }
+    if (url) { setSrc(url); setPreview(url); }
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -222,11 +219,7 @@ function FormModal({
     if (!name || !src) return;
     onSave({
       id: game?.id || name.toLowerCase().replace(/[^a-z0-9]/g, "-"),
-      name,
-      publisher,
-      src,
-      badge,
-      price,
+      name, publisher, src, badge, price,
     });
   }
 
@@ -268,12 +261,8 @@ function FormModal({
             <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Rp3.000" className="w-full h-10 px-3 rounded-[10px] text-[14px] outline-none" style={{ background: "var(--color-surface)", border: "1px solid var(--color-line)", color: "var(--color-text)" }} />
           </div>
           <div className="flex gap-3 pt-2">
-            <button type="button" onClick={onCancel} className="flex-1 h-10 rounded-[10px] text-[13px] font-medium" style={{ border: "1px solid var(--color-line)" }}>
-              Batal
-            </button>
-            <button type="submit" disabled={uploading} className="flex-1 h-10 rounded-[10px] text-[13px] font-semibold disabled:opacity-50" style={{ background: "var(--color-primary)", color: "var(--color-primary-ink)" }}>
-              Simpan
-            </button>
+            <button type="button" onClick={onCancel} className="flex-1 h-10 rounded-[10px] text-[13px] font-medium" style={{ border: "1px solid var(--color-line)" }}>Batal</button>
+            <button type="submit" disabled={uploading} className="flex-1 h-10 rounded-[10px] text-[13px] font-semibold disabled:opacity-50" style={{ background: "var(--color-primary)", color: "var(--color-primary-ink)" }}>Simpan</button>
           </div>
         </form>
       </div>

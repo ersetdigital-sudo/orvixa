@@ -1,14 +1,36 @@
 import { NextResponse } from "next/server";
-
-const GAMES = [
-  { id: "mobile-legends", name: "Mobile Legends", publisher: "Moonton", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151577/jlxfpwi1pkxmesccscp1.png", badge: "Best Seller", price: "Rp3.000" },
-  { id: "free-fire", name: "Free Fire", publisher: "Garena", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151808/fceguvbxqtm2hqlotcro.png", badge: "Hot", price: "Rp2.500" },
-  { id: "pubg-mobile", name: "PUBG Mobile", publisher: "Level Infinite", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151891/mngzis7bhlj3rihx5pee.png", badge: "", price: "Rp15.000" },
-  { id: "genshin-impact", name: "Genshin Impact", publisher: "HoYoverse", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788150221/rdbgqzffn1yqinzinjcd.png", badge: "Populer", price: "Rp16.000" },
-  { id: "magic-chess-go-go", name: "Magic Chess: Go Go", publisher: "Moonton", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788148894/aj4q0rohtu1mfvalbtob.webp", badge: "", price: "Rp5.000" },
-  { id: "call-of-duty-mobile", name: "Call of Duty Mobile", publisher: "Activision", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", badge: "", price: "Rp10.000" },
-];
+import { supabase } from "@/lib/supabase";
 
 export async function GET() {
-  return NextResponse.json(GAMES);
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("active", true)
+    .order("sort_order");
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json(data);
+}
+
+export async function POST(request: Request) {
+  const body = await request.json();
+  const { data, error } = await supabase
+    .from("products")
+    .upsert(body, { onConflict: "id" })
+    .select()
+    .single();
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json(data);
+}
+
+export async function DELETE(request: Request) {
+  const { id } = await request.json();
+  const { error } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", id);
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ success: true });
 }

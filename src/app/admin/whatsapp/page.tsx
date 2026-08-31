@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function WhatsAppPage() {
-  const [number, setNumber] = useState("6281234567890");
+  const [number, setNumber] = useState("");
+  const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/whatsapp")
+      .then((r) => r.json())
+      .then((data) => { setNumber(data.number || "6281234567890"); setLoading(false); })
+      .catch(() => { setNumber("6281234567890"); setLoading(false); });
+  }, []);
 
   function showToast(msg: string) {
     setToast(msg);
@@ -20,11 +28,7 @@ export default function WhatsAppPage() {
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     const cleaned = number.replace(/[^0-9]/g, "");
-
-    if (!validateNumber(cleaned)) {
-      showToast("Format nomor tidak valid (harus mulai 62, 10-15 digit)");
-      return;
-    }
+    if (!validateNumber(cleaned)) { showToast("Format nomor tidak valid (harus mulai 62, 10-15 digit)"); return; }
 
     setSaving(true);
     try {
@@ -33,12 +37,8 @@ export default function WhatsAppPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ number: cleaned }),
       });
-
-      if (res.ok) {
-        showToast("Nomor WhatsApp berhasil disimpan");
-      } else {
-        showToast("Gagal menyimpan");
-      }
+      if (res.ok) showToast("Nomor WhatsApp berhasil disimpan");
+      else showToast("Gagal menyimpan");
     } catch {
       showToast("Gagal menyimpan");
     } finally {
@@ -55,11 +55,8 @@ export default function WhatsAppPage() {
   return (
     <div>
       <h1 className="font-display font-bold text-[24px] md:text-[28px]">Pengaturan WhatsApp</h1>
-      <p className="mt-1 text-[14px]" style={{ color: "var(--color-muted)" }}>
-        Atur nomor WhatsApp Customer Service yang ditampilkan di situs
-      </p>
+      <p className="mt-1 text-[14px]" style={{ color: "var(--color-muted)" }}>Atur nomor WhatsApp Customer Service yang ditampilkan di situs</p>
 
-      {/* Toast */}
       {toast && (
         <div className="fixed top-4 right-4 z-50 px-4 py-2.5 rounded-[10px] text-[13px] font-medium shadow-lg" style={{ background: "var(--color-primary)", color: "var(--color-primary-ink)" }}>
           {toast}
@@ -68,9 +65,7 @@ export default function WhatsAppPage() {
 
       <div className="mt-6 card p-6 max-w-[500px]">
         <h2 className="font-display font-semibold text-[16px]">Nomor WhatsApp CS</h2>
-        <p className="mt-1 text-[13px]" style={{ color: "var(--color-muted)" }}>
-          Nomor ini akan digunakan untuk tombol WhatsApp di situs publik.
-        </p>
+        <p className="mt-1 text-[13px]" style={{ color: "var(--color-muted)" }}>Nomor ini akan digunakan untuk tombol WhatsApp di situs publik.</p>
 
         <form onSubmit={handleSave} className="mt-5 space-y-4">
           <div>
@@ -82,13 +77,13 @@ export default function WhatsAppPage() {
                 value={number.replace(/^62/, "")}
                 onChange={(e) => setNumber("62" + e.target.value.replace(/^62/, "").replace(/[^0-9]/g, ""))}
                 placeholder="81234567890"
-                className="flex-1 h-10 px-3 rounded-[10px] text-[14px] outline-none"
+                disabled={loading}
+                className="flex-1 h-10 px-3 rounded-[10px] text-[14px] outline-none disabled:opacity-50"
                 style={{ background: "var(--color-surface)", border: "1px solid var(--color-line)", color: "var(--color-text)" }}
               />
             </div>
           </div>
 
-          {/* Preview */}
           <div className="p-3 rounded-[10px]" style={{ background: "var(--color-surface-2, #0D1117)" }}>
             <p className="text-[12px] mb-1.5" style={{ color: "var(--color-muted)" }}>Preview:</p>
             <div className="flex items-center gap-2">
@@ -103,7 +98,7 @@ export default function WhatsAppPage() {
 
           <button
             type="submit"
-            disabled={saving || !isValid}
+            disabled={saving || !isValid || loading}
             className="h-10 px-6 rounded-[10px] text-[13px] font-semibold transition-opacity disabled:opacity-50"
             style={{ background: "var(--color-primary)", color: "var(--color-primary-ink)" }}
           >
@@ -112,22 +107,12 @@ export default function WhatsAppPage() {
         </form>
       </div>
 
-      {/* Info */}
       <div className="mt-6 card p-5 max-w-[500px]">
         <h3 className="font-display font-semibold text-[14px]">Catatan</h3>
         <ul className="mt-2 space-y-1.5 text-[13px]" style={{ color: "var(--color-muted)" }}>
-          <li className="flex gap-2">
-            <span style={{ color: "var(--color-primary)" }}>•</span>
-            Nomor harus dalam format internasional (dimulai 62 untuk Indonesia)
-          </li>
-          <li className="flex gap-2">
-            <span style={{ color: "var(--color-primary)" }}>•</span>
-            Nomor ini akan ditampilkan di tombol WhatsApp di situs publik
-          </li>
-          <li className="flex gap-2">
-            <span style={{ color: "var(--color-primary)" }}>•</span>
-            Pastikan nomor aktif dan bisa menerima pesan WhatsApp
-          </li>
+          <li className="flex gap-2"><span style={{ color: "var(--color-primary)" }}>•</span>Nomor harus dalam format internasional (dimulai 62 untuk Indonesia)</li>
+          <li className="flex gap-2"><span style={{ color: "var(--color-primary)" }}>•</span>Nomor ini akan ditampilkan di tombol WhatsApp di situs publik</li>
+          <li className="flex gap-2"><span style={{ color: "var(--color-primary)" }}>•</span>Pastikan nomor aktif dan bisa menerima pesan WhatsApp</li>
         </ul>
       </div>
     </div>
