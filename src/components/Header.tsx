@@ -78,16 +78,8 @@ export default function Header() {
           <Link href="/" className="hover:text-white">Beranda</Link>
           <Link href="/#kategori" className="hover:text-white">Top Up Game</Link>
           <Link href="/#voucher" className="hover:text-white">Voucher</Link>
-          <Link href="/#voucher" className="hover:text-white">Entertainment</Link>
-          <Link href="#" className="hover:text-white">Blog</Link>
           <Link href="/#bantuan" className="hover:text-white">Bantuan</Link>
         </nav>
-
-        {/* Auth buttons - desktop */}
-        <div className="hidden md:flex items-center gap-2 ml-auto lg:ml-0">
-          <Link href="#" className="btn btn-ghost h-9 px-4 text-sm">Login</Link>
-          <Link href="#" className="btn btn-primary h-9 px-4 text-sm">Daftar</Link>
-        </div>
 
         {/* Mobile hamburger */}
         <button
@@ -130,13 +122,7 @@ export default function Header() {
             <Link href="/" className="py-2.5">Beranda</Link>
             <Link href="/#kategori" className="py-2.5">Top Up Game</Link>
             <Link href="/#voucher" className="py-2.5">Voucher</Link>
-            <Link href="/#voucher" className="py-2.5">Entertainment</Link>
-            <Link href="#" className="py-2.5">Blog</Link>
             <Link href="/#bantuan" className="py-2.5">Bantuan</Link>
-            <div className="flex gap-2 pt-3 pb-1">
-              <Link href="#" className="btn btn-ghost h-10 px-4 text-sm flex-1">Login</Link>
-              <Link href="#" className="btn btn-primary h-10 px-4 text-sm flex-1">Daftar</Link>
-            </div>
           </nav>
         </div>
       )}
