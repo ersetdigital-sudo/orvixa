@@ -45,14 +45,36 @@ const BANNERS = [
   },
 ];
 
-const GAMES = [
-  { href: "/mobile-legends", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151577/jlxfpwi1pkxmesccscp1.png", alt: "Top up Mobile Legends diamond murah di ORVIXA GAMING", badge: "Best Seller", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Mobile Legends", publisher: "Moonton", item: "Diamond", price: "Rp3.000", cat: "topup" },
-  { href: "/free-fire", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151808/fceguvbxqtm2hqlotcro.png", alt: "Top up Free Fire diamond proses instan", badge: "Hot", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Free Fire", publisher: "Garena", item: "Diamond", price: "Rp2.500", cat: "topup" },
-  { href: "/pubg-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151891/mngzis7bhlj3rihx5pee.png", alt: "Top up PUBG Mobile UC harga murah", name: "PUBG Mobile", publisher: "Level Infinite", item: "UC", price: "Rp15.000", cat: "topup" },
-  { href: "/genshin-impact", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788150221/rdbgqzffn1yqinzinjcd.png", alt: "Top up Genshin Impact Genesis Crystal", badge: "Populer", badgeStyle: { background: "rgba(43,196,160,.16)", color: "#5AE0BF", border: "1px solid rgba(43,196,160,.35)" }, name: "Genshin Impact", publisher: "HoYoverse", item: "Crystal", price: "Rp16.000", cat: "topup" },
-  { href: "/magic-chess-go-go", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788148894/aj4q0rohtu1mfvalbtob.webp", alt: "Top up Magic Chess Go Go token murah", badge: "Baru", badgeStyle: { background: "rgba(43,196,160,.16)", color: "#5AE0BF", border: "1px solid rgba(43,196,160,.35)" }, name: "Magic Chess: Go Go", price: "Rp3.500", cat: "topup", contain: true },
-  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile CP harga murah", badge: "Hot", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Call of Duty Mobile", price: "Rp15.000", cat: "topup", contain: true },
+interface HomeGame {
+  href: string;
+  src: string;
+  alt: string;
+  badge: string;
+  badgeStyle: React.CSSProperties;
+  name: string;
+  price: string;
+}
+
+const GAMES_FALLBACK: HomeGame[] = [
+  { href: "/mobile-legends", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151577/jlxfpwi1pkxmesccscp1.png", alt: "Top up Mobile Legends diamond murah di ORVIXA GAMING", badge: "Best Seller", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Mobile Legends", price: "Rp3.000" },
+  { href: "/free-fire", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151808/fceguvbxqtm2hqlotcro.png", alt: "Top up Free Fire diamond proses instan", badge: "Hot", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Free Fire", price: "Rp2.500" },
+  { href: "/pubg-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151891/mngzis7bhlj3rihx5pee.png", alt: "Top up PUBG Mobile UC harga murah", badge: "", badgeStyle: {}, name: "PUBG Mobile", price: "Rp15.000" },
+  { href: "/genshin-impact", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788150221/rdbgqzffn1yqinzinjcd.png", alt: "Top up Genshin Impact Genesis Crystal", badge: "Populer", badgeStyle: { background: "rgba(43,196,160,.16)", color: "#5AE0BF", border: "1px solid rgba(43,196,160,.35)" }, name: "Genshin Impact", price: "Rp16.000" },
+  { href: "/magic-chess-go-go", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788148894/aj4q0rohtu1mfvalbtob.webp", alt: "Top up Magic Chess Go Go token murah", badge: "Baru", badgeStyle: { background: "rgba(43,196,160,.16)", color: "#5AE0BF", border: "1px solid rgba(43,196,160,.35)" }, name: "Magic Chess: Go Go", price: "Rp3.500" },
+  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile CP harga murah", badge: "Hot", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Call of Duty Mobile", price: "Rp15.000" },
 ];
+
+const BADGE_STYLES: Record<string, React.CSSProperties> = {
+  "Best Seller": { background: "var(--color-primary)", color: "var(--color-primary-ink)" },
+  "Hot": { background: "var(--color-primary)", color: "var(--color-primary-ink)" },
+  "Hemat": { background: "var(--color-primary)", color: "var(--color-primary-ink)" },
+  "Populer": { background: "rgba(43,196,160,.16)", color: "#5AE0BF", border: "1px solid rgba(43,196,160,.35)" },
+  "Baru": { background: "rgba(43,196,160,.16)", color: "#5AE0BF", border: "1px solid rgba(43,196,160,.35)" },
+};
+
+function badgeStyleFor(badge: string): React.CSSProperties {
+  return badge ? BADGE_STYLES[badge] || { background: "var(--color-primary)", color: "var(--color-primary-ink)" } : {};
+}
 
 const POPULAR_GAMES = [
   { href: "/mobile-legends", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151577/jlxfpwi1pkxmesccscp1.png", alt: "Top up Mobile Legends diamond", name: "Mobile Legends", publisher: "Moonton", gradient: "linear-gradient(135deg, #3b2060 0%, #1e2d5a 100%)" },
@@ -69,6 +91,35 @@ export default function HomePage() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval>>(null);
+  const [games, setGames] = useState(GAMES_FALLBACK);
+
+  // Fetch games dari database (admin panel)
+  useEffect(() => {
+    fetch("/api/products")
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setGames(
+            data.map((p: {
+              id: string;
+              name: string;
+              src: string;
+              badge: string;
+              price: string;
+            }) => ({
+              href: `/${p.id}`,
+              src: p.src,
+              alt: `Top up ${p.name} murah di ORVIXA GAMING`,
+              badge: p.badge || "",
+              badgeStyle: badgeStyleFor(p.badge || ""),
+              name: p.name,
+              price: p.price || "",
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Banner carousel
   useEffect(() => {
@@ -186,7 +237,7 @@ export default function HomePage() {
           </div>
 
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3.5 md:gap-4">
-            {GAMES.map((g, i) => (
+            {games.map((g, i) => (
               <Link key={i} href={g.href} className="game-card">
                 <GameThumbnail src={g.src} alt={g.alt} size="lg" />
                 {g.badge && <span className="badge absolute top-2.5 left-2.5 z-10" style={g.badgeStyle}>{g.badge}</span>}
