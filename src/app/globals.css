@@ -107,18 +107,6 @@ h1, h2, h3, .font-display {
   border-color: rgba(239, 163, 38, 0.45);
   box-shadow: 0 14px 34px -18px rgba(0, 0, 0, 0.9);
 }
-.game-card .thumb {
-  aspect-ratio: 16/10;
-  width: 100%;
-  object-fit: cover;
-  display: block;
-  background: #0F151D;
-}
-.game-card .thumb-contain {
-  aspect-ratio: 1;
-  object-fit: contain;
-  background: #0D1117;
-}
 .game-card .cta {
   position: absolute;
   left: 10px;

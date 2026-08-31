@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SchemaJsonLd from "./SchemaJsonLd";
+import GameThumbnail from "./GameThumbnail";
 
 const BANNERS = [
   {
@@ -187,8 +188,8 @@ export default function HomePage() {
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3.5 md:gap-4">
             {GAMES.map((g, i) => (
               <Link key={i} href={g.href} className="game-card">
-                <Image loading="lazy" className={`thumb ${g.contain ? "thumb-contain" : ""}`} src={g.src} alt={g.alt} width={400} height={250} />
-                {g.badge && <span className="badge absolute top-2.5 left-2.5" style={g.badgeStyle}>{g.badge}</span>}
+                <GameThumbnail src={g.src} alt={g.alt} size="lg" />
+                {g.badge && <span className="badge absolute top-2.5 left-2.5 z-10" style={g.badgeStyle}>{g.badge}</span>}
                 <div className="p-3">
                   <h3 className="font-display font-semibold text-[14px] leading-tight">{g.name}</h3>
                   <p className="text-[12px] mt-1.5" style={{ color: "var(--color-muted)" }}>
@@ -301,14 +302,7 @@ export default function HomePage() {
                 className="flex items-center gap-4 p-3 pr-6 rounded-[16px] transition-all hover:brightness-110"
                 style={{ background: g.gradient }}
               >
-                <Image
-                  loading="lazy"
-                  className="w-[76px] h-[76px] rounded-[12px] object-cover shrink-0"
-                  src={g.src}
-                  alt={g.alt}
-                  width={76}
-                  height={76}
-                />
+                <GameThumbnail src={g.src} alt={g.alt} size="sm" />
                 <div className="min-w-0">
                   <h3 className="font-display font-semibold text-[15px] text-white leading-tight">{g.name}</h3>
                   <p className="text-[13px] mt-1 text-white/60">{g.publisher}</p>

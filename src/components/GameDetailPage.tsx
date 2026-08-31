@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import GameThumbnail from "./GameThumbnail";
 
 interface Field {
   label: string;
@@ -92,7 +93,7 @@ export default function GameDetailPage(props: GameDetailProps) {
             <span style={{ color: "var(--color-text)" }}>{props.gameName}</span>
           </nav>
           <div className="mt-5 flex gap-4 md:gap-6 items-start">
-            <Image src={props.iconImage} alt={`Top up ${props.gameName} ${props.item} di ORVIXA GAMING`} width={148} height={148} className="w-[104px] h-[104px] md:w-[148px] md:h-[148px] rounded-[16px] object-cover shrink-0" style={{ border: "1px solid var(--color-line-strong)" }} />
+            <GameThumbnail src={props.iconImage} alt={`Top up ${props.gameName} ${props.item} di ORVIXA GAMING`} size="md" style={{ border: "1px solid var(--color-line-strong)" }} />
             <div className="min-w-0">
               <span className="badge" style={{ background: "var(--color-primary)", color: "var(--color-primary-ink)" }}>{props.badge}</span>
               <h1 className="font-display font-extrabold text-[24px] md:text-[38px] leading-tight mt-2.5">{props.title}</h1>
@@ -212,7 +213,7 @@ export default function GameDetailPage(props: GameDetailProps) {
           <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
             {OTHER_GAMES.map((g, i) => (
               <Link key={i} href={g.href} className="game-card">
-                <Image loading="lazy" className="thumb" src={g.src} alt={g.alt} width={400} height={250} />
+                <GameThumbnail src={g.src} alt={g.alt} size="lg" />
                 <div className="p-3">
                   <h3 className="font-display font-semibold text-[13.5px] leading-tight">{g.name}</h3>
                   <p className="text-[12px] mt-0.5" style={{ color: "var(--color-muted)" }}>{g.publisher} · {g.item}</p>
