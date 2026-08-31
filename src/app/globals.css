@@ -114,6 +114,11 @@ h1, h2, h3, .font-display {
   display: block;
   background: #0F151D;
 }
+.game-card .thumb-contain {
+  aspect-ratio: 1;
+  object-fit: contain;
+  background: #0D1117;
+}
 .game-card .cta {
   position: absolute;
   left: 10px;
