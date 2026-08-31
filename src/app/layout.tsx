@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
 import "./globals.css";
 
 const plusJakarta = localFont({
@@ -72,10 +71,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id" className={`${plusJakarta.variable} ${sora.variable}`}>
-      <body>
-        {children}
-        <WhatsAppFloat />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
