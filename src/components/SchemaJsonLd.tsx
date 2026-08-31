@@ -22,7 +22,7 @@ const PRODUCTS = [
   {
     name: "Top Up UC PUBG Mobile",
     description: "Top up UC PUBG Mobile termurah di ORVIXA GAMING. Harga mulai Rp15.000, pembayaran QRIS dan e-wallet.",
-    image: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png",
+    image: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151891/mngzis7bhlj3rihx5pee.png",
     url: "/pubg-mobile",
     price: 15000,
     brand: "Level Infinite",

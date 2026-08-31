@@ -46,7 +46,7 @@ const PAYMENTS = [
 const OTHER_GAMES = [
   { href: "/mobile-legends", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151577/jlxfpwi1pkxmesccscp1.png", alt: "Top up Mobile Legends", name: "Mobile Legends", publisher: "Moonton", item: "Diamond" },
   { href: "/free-fire", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151808/fceguvbxqtm2hqlotcro.png", alt: "Top up Free Fire", name: "Free Fire", publisher: "Garena", item: "Diamond" },
-  { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile", name: "PUBG Mobile", publisher: "Tencent", item: "UC" },
+  { href: "/pubg-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151891/mngzis7bhlj3rihx5pee.png", alt: "Top up PUBG Mobile", name: "PUBG Mobile", publisher: "Tencent", item: "UC" },
   { href: "/genshin-impact", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788150221/rdbgqzffn1yqinzinjcd.png", alt: "Top up Genshin Impact", name: "Genshin Impact", publisher: "HoYoverse", item: "Genesis Crystal" },
   { href: "/magic-chess-go-go", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788148894/aj4q0rohtu1mfvalbtob.webp", alt: "Top up Magic Chess: Go Go", name: "Magic Chess: Go Go", publisher: "Moonton", item: "Token" },
   { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile", name: "Call of Duty Mobile", publisher: "Activision", item: "CP" },
