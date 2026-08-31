@@ -131,7 +131,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="mt-7 md:mt-9 flex flex-col lg:flex-row lg:items-end gap-5 justify-between">
+          <div className="mt-7 md:mt-9 grid lg:grid-cols-[1fr_auto] lg:gap-8 items-start">
+            {/* Kiri: Heading + Deskripsi + CTA */}
             <div>
               <h1 className="font-display font-extrabold leading-[1.1] text-[26px] md:text-[36px] max-w-[620px]">
                 Top up game murah dan terpercaya, masuk dalam hitungan detik.
@@ -139,10 +140,46 @@ export default function HomePage() {
               <p className="mt-3 text-[15px] md:text-[16px] leading-relaxed max-w-[600px]" style={{ color: "#C2CBD5" }}>
                 Top up diamond Mobile Legends, Free Fire, PUBG, Genshin, voucher game, dan produk digital lainnya — proses otomatis 24 jam dengan pembayaran QRIS, e-wallet, dan Virtual Account.
               </p>
+              <div className="mt-6 flex gap-3">
+                <Link href="/#kategori" className="btn btn-primary h-12 px-6 text-[15px]">Top Up Sekarang</Link>
+                <Link href="/#promo" className="btn btn-ghost h-12 px-6 text-[15px]">Lihat Promo</Link>
+              </div>
             </div>
-            <div className="flex gap-3 shrink-0">
-              <Link href="/#kategori" className="btn btn-primary h-12 px-6 text-[15px]">Top Up Sekarang</Link>
-              <Link href="/#promo" className="btn btn-ghost h-12 px-6 text-[15px]">Lihat Promo</Link>
+
+            {/* Kanan: Trust Stats */}
+            <div className="mt-6 lg:mt-0 grid grid-cols-2 gap-x-6 gap-y-4 lg:gap-x-8 lg:gap-y-5 pt-2">
+              {/* 1 */}
+              <div className="flex items-start gap-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                <div>
+                  <p className="font-display font-bold text-[20px] md:text-[22px] leading-none" style={{ color: "var(--color-primary)" }}>10.000+</p>
+                  <p className="text-[13px] mt-1 leading-snug" style={{ color: "var(--color-muted)" }}>Transaksi Berhasil</p>
+                </div>
+              </div>
+              {/* 2 */}
+              <div className="flex items-start gap-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                <div>
+                  <p className="font-display font-bold text-[20px] md:text-[22px] leading-none" style={{ color: "var(--color-primary)" }}>&lt; 1 Menit</p>
+                  <p className="text-[13px] mt-1 leading-snug" style={{ color: "var(--color-muted)" }}>Proses Otomatis</p>
+                </div>
+              </div>
+              {/* 3 */}
+              <div className="flex items-start gap-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+                <div>
+                  <p className="font-display font-bold text-[20px] md:text-[22px] leading-none" style={{ color: "var(--color-primary)" }}>4.9</p>
+                  <p className="text-[13px] mt-1 leading-snug" style={{ color: "var(--color-muted)" }}>Rating Pengguna</p>
+                </div>
+              </div>
+              {/* 4 */}
+              <div className="flex items-start gap-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+                <div>
+                  <p className="font-display font-bold text-[20px] md:text-[22px] leading-none" style={{ color: "var(--color-primary)" }}>24/7</p>
+                  <p className="text-[13px] mt-1 leading-snug" style={{ color: "var(--color-muted)" }}>Support Siaga</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
