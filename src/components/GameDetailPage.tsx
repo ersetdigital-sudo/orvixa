@@ -48,7 +48,7 @@ const OTHER_GAMES = [
   { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile", name: "PUBG Mobile", publisher: "Tencent", item: "UC" },
   { href: "/genshin-impact", src: "/images/7eb8ddc8-60a4-4794-85bd-ed0fd653defd.jpg", alt: "Top up Genshin Impact", name: "Genshin Impact", publisher: "HoYoverse", item: "Genesis Crystal" },
   { href: "/magic-chess-go-go", src: "/images/55ca2912-708c-4b77-8867-82e0043a40bb.png", alt: "Top up Magic Chess: Go Go", name: "Magic Chess: Go Go", publisher: "Moonton", item: "Token" },
-  { href: "/call-of-duty-mobile", src: "/images/86522e9e-1c47-4d6d-beb0-dd1887f42efd.webp", alt: "Top up Call of Duty Mobile", name: "Call of Duty Mobile", publisher: "Activision", item: "CP" },
+  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile", name: "Call of Duty Mobile", publisher: "Activision", item: "CP" },
 ];
 
 function money(n: number) {

@@ -58,7 +58,7 @@ const POPULAR_GAMES = [
   { href: "/free-fire", src: "/images/991b8eb7-cf5a-491a-9947-1a2ba05b45d3.jpg", alt: "Top up Free Fire diamond", name: "Free Fire", item: "Diamond" },
   { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile UC", name: "PUBG Mobile", item: "UC" },
   { href: "#", src: "/images/970f7df9-0687-451c-b253-4557afead4fe.jpg", alt: "Top up Honor of Kings token", name: "Honor of Kings", item: "Token" },
-  { href: "/call-of-duty-mobile", src: "/images/86522e9e-1c47-4d6d-beb0-dd1887f42efd.webp", alt: "Top up Call of Duty Mobile CP", name: "Call of Duty Mobile", item: "CP" },
+  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile CP", name: "Call of Duty Mobile", item: "CP" },
   { href: "/genshin-impact", src: "/images/7eb8ddc8-60a4-4794-85bd-ed0fd653defd.jpg", alt: "Top up Genshin Impact", name: "Genshin Impact", item: "Crystal" },
 ];
 
