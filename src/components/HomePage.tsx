@@ -50,7 +50,7 @@ const GAMES = [
   { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile UC harga murah", name: "PUBG Mobile", publisher: "Level Infinite", item: "UC", price: "Rp15.000", cat: "topup" },
   { href: "/genshin-impact", src: "/images/7eb8ddc8-60a4-4794-85bd-ed0fd653defd.jpg", alt: "Top up Genshin Impact Genesis Crystal", badge: "Populer", badgeStyle: { background: "rgba(43,196,160,.16)", color: "#5AE0BF", border: "1px solid rgba(43,196,160,.35)" }, name: "Genshin Impact", publisher: "HoYoverse", item: "Crystal", price: "Rp16.000", cat: "topup" },
   { href: "/magic-chess-go-go", src: "/images/55ca2912-708c-4b77-8867-82e0043a40bb.png", alt: "Top up Magic Chess Go Go token murah", badge: "Baru", badgeStyle: { background: "rgba(43,196,160,.16)", color: "#5AE0BF", border: "1px solid rgba(43,196,160,.35)" }, name: "Magic Chess: Go Go", publisher: "Moonton", item: "Token", price: "Rp3.500", cat: "topup" },
-  { href: "/call-of-duty-mobile", src: "/images/86522e9e-1c47-4d6d-beb0-dd1887f42efd.webp", alt: "Top up Call of Duty Mobile CP harga murah", badge: "Hot", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Call of Duty Mobile", publisher: "Activision", item: "CP", price: "Rp15.000", cat: "topup" },
+  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile CP harga murah", badge: "Hot", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Call of Duty Mobile", publisher: "Activision", item: "CP", price: "Rp15.000", cat: "topup" },
 ];
 
 const POPULAR_GAMES = [
