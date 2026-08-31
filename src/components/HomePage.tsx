@@ -49,12 +49,7 @@ const GAMES = [
   { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile UC harga murah", name: "PUBG Mobile", publisher: "Level Infinite", item: "UC", price: "Rp15.000", cat: "topup" },
   { href: "/genshin-impact", src: "/images/7eb8ddc8-60a4-4794-85bd-ed0fd653defd.jpg", alt: "Top up Genshin Impact Genesis Crystal", badge: "Populer", badgeStyle: { background: "rgba(43,196,160,.16)", color: "#5AE0BF", border: "1px solid rgba(43,196,160,.35)" }, name: "Genshin Impact", publisher: "HoYoverse", item: "Crystal", price: "Rp16.000", cat: "topup" },
   { href: "/magic-chess-go-go", src: "/images/55ca2912-708c-4b77-8867-82e0043a40bb.png", alt: "Top up Magic Chess Go Go token murah", badge: "Baru", badgeStyle: { background: "rgba(43,196,160,.16)", color: "#5AE0BF", border: "1px solid rgba(43,196,160,.35)" }, name: "Magic Chess: Go Go", publisher: "Moonton", item: "Token", price: "Rp3.500", cat: "topup" },
-  { href: "#", src: "/images/970f7df9-0687-451c-b253-4557afead4fe.jpg", alt: "Top up Honor of Kings token murah", name: "Honor of Kings", publisher: "Level Infinite", item: "Token", price: "Rp5.000", cat: "topup" },
-  { href: "#", src: "/images/4446238a-b742-488f-a1dc-2bfe34265bae.jpg", alt: "Top up Roblox Robux via username", name: "Roblox", publisher: "Roblox Corp", item: "Robux", price: "Rp9.000", cat: "topup" },
-  { href: "#", src: "/images/c4320b62-b2d6-445b-bbd6-14e9d7827207.jpg", alt: "Voucher Valorant Points dan Steam Wallet", badge: "Hot", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Valorant", publisher: "Riot Games", item: "VP", price: "Rp13.000", cat: "steam" },
-  { href: "#", src: "/images/67accf89-6e60-4444-add5-ced63a185bfc.jpg", alt: "Top up EA SPORTS FC Mobile FC Points", name: "EA SPORTS FC Mobile", publisher: "EA", item: "FC Point", price: "Rp14.000", cat: "topup" },
-  { href: "#", src: "/images/57c2ec4b-c6a1-4aba-a8c2-c0687a0b7555.jpg", alt: "Voucher game digital dan gift card", name: "Voucher Digital", publisher: "Gift card & kode game", item: "", price: "Rp10.000", cat: "voucher", ctaText: "Beli" },
-  { href: "#", src: "/images/86614f37-478c-4b9b-948e-bd12c9fb5f78.jpg", alt: "Langganan entertainment dan streaming digital", name: "Entertainment", publisher: "Streaming & hiburan", item: "", price: "Rp20.000", cat: "ent", ctaText: "Beli" },
+  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile CP harga murah", badge: "Hot", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Call of Duty Mobile", publisher: "Activision", item: "CP", price: "Rp15.000", cat: "topup" },
 ];
 
 const POPULAR_GAMES = [
@@ -187,7 +182,7 @@ export default function HomePage() {
             <Link href="#" className="btn btn-ghost h-10 px-4 text-sm">Lihat Semua</Link>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 md:gap-4">
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3.5 md:gap-4">
             {GAMES.map((g, i) => (
               <Link key={i} href={g.href} className="game-card">
                 <Image loading="lazy" className="thumb" src={g.src} alt={g.alt} width={400} height={250} />
@@ -199,7 +194,7 @@ export default function HomePage() {
                     Mulai <span style={{ color: "var(--color-primary)" }} className="font-semibold">{g.price}</span>
                   </p>
                 </div>
-                <div className="cta"><span className="btn btn-primary w-full h-9 text-[13px]">{g.ctaText || "Top Up"}</span></div>
+                <div className="cta"><span className="btn btn-primary w-full h-9 text-[13px]">Top Up</span></div>
               </Link>
             ))}
           </div>
