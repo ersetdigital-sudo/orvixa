@@ -6,7 +6,7 @@ const PRODUCTS = [
   {
     name: "Top Up Diamond Mobile Legends",
     description: "Top up diamond Mobile Legends murah dan instan di ORVIXA GAMING. Harga mulai Rp3.000, proses otomatis 24 jam.",
-    image: "/images/3f4dc619-cefc-4b2a-9dce-54e6ef9c20da.jpg",
+    image: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151577/jlxfpwi1pkxmesccscp1.png",
     url: "/mobile-legends",
     price: 3000,
     brand: "Moonton",

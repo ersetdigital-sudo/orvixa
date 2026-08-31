@@ -46,7 +46,7 @@ const BANNERS = [
 ];
 
 const GAMES = [
-  { href: "/mobile-legends", src: "/images/3f4dc619-cefc-4b2a-9dce-54e6ef9c20da.jpg", alt: "Top up Mobile Legends diamond murah di ORVIXA GAMING", badge: "Best Seller", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Mobile Legends", publisher: "Moonton", item: "Diamond", price: "Rp3.000", cat: "topup" },
+  { href: "/mobile-legends", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151577/jlxfpwi1pkxmesccscp1.png", alt: "Top up Mobile Legends diamond murah di ORVIXA GAMING", badge: "Best Seller", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Mobile Legends", publisher: "Moonton", item: "Diamond", price: "Rp3.000", cat: "topup" },
   { href: "/free-fire", src: "/images/991b8eb7-cf5a-491a-9947-1a2ba05b45d3.jpg", alt: "Top up Free Fire diamond proses instan", badge: "Hot", badgeStyle: { background: "var(--color-primary)", color: "var(--color-primary-ink)" }, name: "Free Fire", publisher: "Garena", item: "Diamond", price: "Rp2.500", cat: "topup" },
   { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile UC harga murah", name: "PUBG Mobile", publisher: "Level Infinite", item: "UC", price: "Rp15.000", cat: "topup" },
   { href: "/genshin-impact", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788150221/rdbgqzffn1yqinzinjcd.png", alt: "Top up Genshin Impact Genesis Crystal", badge: "Populer", badgeStyle: { background: "rgba(43,196,160,.16)", color: "#5AE0BF", border: "1px solid rgba(43,196,160,.35)" }, name: "Genshin Impact", publisher: "HoYoverse", item: "Crystal", price: "Rp16.000", cat: "topup" },
@@ -55,7 +55,7 @@ const GAMES = [
 ];
 
 const POPULAR_GAMES = [
-  { href: "/mobile-legends", src: "/images/3f4dc619-cefc-4b2a-9dce-54e6ef9c20da.jpg", alt: "Top up Mobile Legends diamond", name: "Mobile Legends", publisher: "Moonton", gradient: "linear-gradient(135deg, #3b2060 0%, #1e2d5a 100%)" },
+  { href: "/mobile-legends", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151577/jlxfpwi1pkxmesccscp1.png", alt: "Top up Mobile Legends diamond", name: "Mobile Legends", publisher: "Moonton", gradient: "linear-gradient(135deg, #3b2060 0%, #1e2d5a 100%)" },
   { href: "/magic-chess-go-go", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788148894/aj4q0rohtu1mfvalbtob.webp", alt: "Top up Magic Chess Go Go token", name: "Magic Chess Go Go", publisher: "Vizta Games", gradient: "linear-gradient(135deg, #a07050 0%, #c09070 100%)" },
   { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile UC", name: "PUBG Mobile", publisher: "Tencent Games", gradient: "linear-gradient(135deg, #2050a0 0%, #3060c0 100%)" },
   { href: "/free-fire", src: "/images/991b8eb7-cf5a-491a-9947-1a2ba05b45d3.jpg", alt: "Top up Free Fire diamond", name: "Free Fire", publisher: "Garena", gradient: "linear-gradient(135deg, #803050 0%, #a04060 100%)" },

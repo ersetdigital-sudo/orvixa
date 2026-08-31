@@ -44,7 +44,7 @@ const PAYMENTS = [
 ];
 
 const OTHER_GAMES = [
-  { href: "/mobile-legends", src: "/images/3f4dc619-cefc-4b2a-9dce-54e6ef9c20da.jpg", alt: "Top up Mobile Legends", name: "Mobile Legends", publisher: "Moonton", item: "Diamond" },
+  { href: "/mobile-legends", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151577/jlxfpwi1pkxmesccscp1.png", alt: "Top up Mobile Legends", name: "Mobile Legends", publisher: "Moonton", item: "Diamond" },
   { href: "/free-fire", src: "/images/991b8eb7-cf5a-491a-9947-1a2ba05b45d3.jpg", alt: "Top up Free Fire", name: "Free Fire", publisher: "Garena", item: "Diamond" },
   { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile", name: "PUBG Mobile", publisher: "Tencent", item: "UC" },
   { href: "/genshin-impact", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788150221/rdbgqzffn1yqinzinjcd.png", alt: "Top up Genshin Impact", name: "Genshin Impact", publisher: "HoYoverse", item: "Genesis Crystal" },
