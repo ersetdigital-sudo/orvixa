@@ -216,7 +216,6 @@ export default function GameDetailPage(props: GameDetailProps) {
                 <GameThumbnail src={g.src} alt={g.alt} size="lg" />
                 <div className="p-3">
                   <h3 className="font-display font-semibold text-[13.5px] leading-tight">{g.name}</h3>
-                  <p className="text-[12px] mt-0.5" style={{ color: "var(--color-muted)" }}>{g.publisher} · {g.item}</p>
                 </div>
               </Link>
             ))}
