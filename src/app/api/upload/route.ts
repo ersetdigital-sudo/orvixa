@@ -1,4 +1,11 @@
 import { NextResponse } from "next/server";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function POST(request: Request) {
   try {
@@ -9,53 +16,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Tidak ada file" }, { status: 400 });
     }
 
-    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-    const apiKey = process.env.CLOUDINARY_API_KEY;
-    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
 
-    if (!cloudName || !apiKey || !apiSecret) {
-      return NextResponse.json({ error: "Cloudinary tidak terkonfigurasi" }, { status: 500 });
-    }
+    const result = await new Promise<{ secure_url: string; public_id: string }>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { resource_type: "image" },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result!);
+        }
+      );
+      uploadStream.end(buffer);
+    });
 
-    const timestamp = Math.round(Date.now() / 1000);
-    const paramsToSign = `timestamp=${timestamp}${apiSecret}`;
-
-    const encoder = new TextEncoder();
-    const data = encoder.encode(paramsToSign);
-    const cryptoKey = await crypto.subtle.importKey(
-      "raw",
-      encoder.encode(apiSecret),
-      { name: "HMAC", hash: "SHA-1" },
-      false,
-      ["sign"]
-    );
-    const signatureBuffer = await crypto.subtle.sign("HMAC", cryptoKey, data);
-    const signature = Array.from(new Uint8Array(signatureBuffer))
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-
-    const uploadFormData = new FormData();
-    uploadFormData.append("file", file);
-    uploadFormData.append("api_key", apiKey);
-    uploadFormData.append("timestamp", timestamp.toString());
-    uploadFormData.append("signature", signature);
-
-    const uploadResponse = await fetch(
-      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-      {
-        method: "POST",
-        body: uploadFormData,
-      }
-    );
-
-    if (!uploadResponse.ok) {
-      const errorData = await uploadResponse.json();
-      return NextResponse.json({ error: errorData.error?.message || "Upload gagal" }, { status: 500 });
-    }
-
-    const result = await uploadResponse.json();
     return NextResponse.json({ url: result.secure_url, public_id: result.public_id });
-  } catch (error) {
-    return NextResponse.json({ error: "Gagal upload gambar" }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message || "Gagal upload gambar" }, { status: 500 });
   }
 }
