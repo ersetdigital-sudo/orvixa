@@ -7,12 +7,19 @@ export default function WhatsAppPage() {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
   const [saving, setSaving] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     fetch("/api/whatsapp")
       .then((r) => r.json())
-      .then((data) => { setNumber(data.number || "6281234567890"); setLoading(false); })
-      .catch(() => { setNumber("6281234567890"); setLoading(false); });
+      .then((data) => {
+        setNumber(data.number || "6281234567890");
+        setLoading(false);
+      })
+      .catch(() => {
+        setNumber("6281234567890");
+        setLoading(false);
+      });
   }, []);
 
   function showToast(msg: string) {
@@ -28,7 +35,10 @@ export default function WhatsAppPage() {
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     const cleaned = number.replace(/[^0-9]/g, "");
-    if (!validateNumber(cleaned)) { showToast("Format nomor tidak valid (harus mulai 62, 10-15 digit)"); return; }
+    if (!validateNumber(cleaned)) {
+      showToast("Format nomor tidak valid (harus mulai 62, 10-15 digit)");
+      return;
+    }
 
     setSaving(true);
     try {
@@ -37,8 +47,12 @@ export default function WhatsAppPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ number: cleaned }),
       });
-      if (res.ok) showToast("Nomor WhatsApp berhasil disimpan");
-      else showToast("Gagal menyimpan");
+      if (res.ok) {
+        setIsEditing(false);
+        showToast("Nomor WhatsApp berhasil disimpan");
+      } else {
+        showToast("Gagal menyimpan");
+      }
     } catch {
       showToast("Gagal menyimpan");
     } finally {
@@ -48,14 +62,17 @@ export default function WhatsAppPage() {
 
   const cleaned = number.replace(/[^0-9]/g, "");
   const isValid = validateNumber(cleaned);
-  const displayNumber = cleaned.length > 4
-    ? `+${cleaned.slice(0, 2)} ${cleaned.slice(2, 6)}-${cleaned.slice(6, 10)}${cleaned.length > 10 ? "-" + cleaned.slice(10) : ""}`
-    : cleaned;
+  const displayNumber =
+    cleaned.length > 4
+      ? `+${cleaned.slice(0, 2)} ${cleaned.slice(2, 6)}-${cleaned.slice(6, 10)}${cleaned.length > 10 ? "-" + cleaned.slice(10) : ""}`
+      : cleaned;
 
   return (
     <div>
       <h1 className="font-display font-bold text-[24px] md:text-[28px]">Pengaturan WhatsApp</h1>
-      <p className="mt-1 text-[14px]" style={{ color: "var(--color-muted)" }}>Atur nomor WhatsApp Customer Service yang ditampilkan di situs</p>
+      <p className="mt-1 text-[14px]" style={{ color: "var(--color-muted)" }}>
+        Atur nomor WhatsApp Customer Service yang ditampilkan di situs
+      </p>
 
       {toast && (
         <div className="fixed top-4 right-4 z-50 px-4 py-2.5 rounded-[10px] text-[13px] font-medium shadow-lg" style={{ background: "var(--color-primary)", color: "var(--color-primary-ink)" }}>
@@ -65,20 +82,29 @@ export default function WhatsAppPage() {
 
       <div className="mt-6 card p-6 max-w-[500px]">
         <h2 className="font-display font-semibold text-[16px]">Nomor WhatsApp CS</h2>
-        <p className="mt-1 text-[13px]" style={{ color: "var(--color-muted)" }}>Nomor ini akan digunakan untuk tombol WhatsApp di situs publik.</p>
+        <p className="mt-1 text-[13px]" style={{ color: "var(--color-muted)" }}>
+          Nomor ini akan digunakan untuk tombol WhatsApp di situs publik.
+        </p>
 
         <form onSubmit={handleSave} className="mt-5 space-y-4">
           <div>
-            <label className="block text-[13px] font-medium mb-1.5" style={{ color: "var(--color-muted)" }}>Nomor WhatsApp</label>
+            <label className="block text-[13px] font-medium mb-1.5" style={{ color: "var(--color-muted)" }}>
+              Nomor WhatsApp
+            </label>
             <div className="flex items-center gap-2">
-              <span className="text-[14px] px-3 h-10 grid place-items-center rounded-[10px] shrink-0" style={{ background: "var(--color-surface-2, #0D1117)", color: "var(--color-muted)" }}>+62</span>
+              <span
+                className="text-[14px] px-3 h-10 grid place-items-center rounded-[10px] shrink-0"
+                style={{ background: "var(--color-surface-2, #0D1117)", color: "var(--color-muted)" }}
+              >
+                +62
+              </span>
               <input
                 type="tel"
                 value={number.replace(/^62/, "")}
                 onChange={(e) => setNumber("62" + e.target.value.replace(/^62/, "").replace(/[^0-9]/g, ""))}
                 placeholder="81234567890"
-                disabled={loading}
-                className="flex-1 h-10 px-3 rounded-[10px] text-[14px] outline-none disabled:opacity-50"
+                disabled={!isEditing || loading}
+                className="flex-1 h-10 px-3 rounded-[10px] text-[14px] outline-none disabled:opacity-60 transition-all"
                 style={{ background: "var(--color-surface)", border: "1px solid var(--color-line)", color: "var(--color-text)" }}
               />
             </div>
@@ -96,14 +122,45 @@ export default function WhatsAppPage() {
             </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={saving || !isValid || loading}
-            className="h-10 px-6 rounded-[10px] text-[13px] font-semibold transition-opacity disabled:opacity-50"
-            style={{ background: "var(--color-primary)", color: "var(--color-primary-ink)" }}
-          >
-            {saving ? "Menyimpan..." : "Simpan"}
-          </button>
+          {isEditing ? (
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                className="h-10 px-5 rounded-[10px] text-[13px] font-medium transition-colors"
+                style={{ background: "var(--color-surface-2, #0D1117)", color: "var(--color-muted)" }}
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                disabled={saving || !isValid}
+                className="h-10 px-6 rounded-[10px] text-[13px] font-semibold transition-all disabled:opacity-50"
+                style={{ background: "var(--color-primary)", color: "var(--color-primary-ink)" }}
+              >
+                {saving ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 2v4m0 12v4m-7.07-3.93l2.83-2.83m8.48-8.48l2.83-2.83M2 12h4m12 0h4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83" />
+                    </svg>
+                    Menyimpan...
+                  </span>
+                ) : (
+                  "Simpan"
+                )}
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setIsEditing(true)}
+              disabled={loading}
+              className="h-10 px-6 rounded-[10px] text-[13px] font-semibold transition-all"
+              style={{ background: "var(--color-surface-2, #0D1117)", color: "var(--color-text)", border: "1px solid var(--color-line)" }}
+            >
+              Edit
+            </button>
+          )}
         </form>
       </div>
 
