@@ -230,7 +230,9 @@ export default function GameDetailPage(props: GameDetailProps) {
                 <span className="text-[13px]" style={{ color: "var(--color-muted)" }}>Total bayar</span>
                 <span className="font-display font-extrabold text-[22px]" style={{ color: "var(--color-primary)" }}>{money(price + fee)}</span>
               </div>
-              <button className="btn btn-primary w-full h-12 mt-4 text-[15px]" onClick={handleBuy}>Beli Sekarang</button>
+              <button className="btn-buy-anim w-full h-12 mt-4 text-[15px] font-bold relative overflow-hidden" onClick={handleBuy}>
+                <span className="relative z-10">Beli Sekarang</span>
+              </button>
               <p className="mt-2.5 text-[12.5px] text-center" style={{ color: buyMsgColor }}>{buyMsg}</p>
             </div>
           </aside>

@@ -384,3 +384,46 @@ h1, h2, h3, .font-display {
     z-index: 40;
   }
 }
+
+/* Buy button animation */
+.btn-buy-anim {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #FFBE4D 50%, var(--color-primary) 100%);
+  background-size: 200% 200%;
+  color: var(--color-primary-ink);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: btnShimmer 3s ease-in-out infinite, btnPulse 2s ease-in-out infinite;
+}
+.btn-buy-anim:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 28px rgba(239, 163, 38, 0.45), 0 0 60px rgba(239, 163, 38, 0.18);
+  animation: none;
+}
+.btn-buy-anim:active {
+  transform: scale(0.97);
+}
+.btn-buy-anim::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  animation: btnSweep 2.5s ease-in-out infinite;
+}
+@keyframes btnShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes btnPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 163, 38, 0.4); }
+  50% { box-shadow: 0 0 20px 4px rgba(239, 163, 38, 0.25); }
+}
+@keyframes btnSweep {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
