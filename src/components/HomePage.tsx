@@ -191,8 +191,7 @@ export default function HomePage() {
                 {g.badge && <span className="badge absolute top-2.5 left-2.5" style={g.badgeStyle}>{g.badge}</span>}
                 <div className="p-3">
                   <h3 className="font-display font-semibold text-[14px] leading-tight">{g.name}</h3>
-                  <p className="text-[12px] mt-0.5" style={{ color: "var(--color-muted)" }}>{g.publisher}{g.item ? ` · ${g.item}` : ""}</p>
-                  <p className="text-[12px] mt-2" style={{ color: "var(--color-muted)" }}>
+                  <p className="text-[12px] mt-1.5" style={{ color: "var(--color-muted)" }}>
                     Mulai <span style={{ color: "var(--color-primary)" }} className="font-semibold">{g.price}</span>
                   </p>
                 </div>
