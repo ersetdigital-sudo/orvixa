@@ -58,7 +58,7 @@ const POPULAR_GAMES = [
   { href: "/free-fire", src: "/images/991b8eb7-cf5a-491a-9947-1a2ba05b45d3.jpg", alt: "Top up Free Fire diamond", name: "Free Fire", item: "Diamond" },
   { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile UC", name: "PUBG Mobile", item: "UC" },
   { href: "#", src: "/images/970f7df9-0687-451c-b253-4557afead4fe.jpg", alt: "Top up Honor of Kings token", name: "Honor of Kings", item: "Token" },
-  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile CP", name: "Call of Duty Mobile", item: "CP" },
+  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile CP", name: "Call of Duty Mobile", item: "CP", contain: true },
   { href: "/genshin-impact", src: "/images/7eb8ddc8-60a4-4794-85bd-ed0fd653defd.jpg", alt: "Top up Genshin Impact", name: "Genshin Impact", item: "Crystal" },
 ];
 
@@ -296,7 +296,7 @@ export default function HomePage() {
           <div className="scroller mt-6">
             {POPULAR_GAMES.map((g, i) => (
               <Link key={i} href={g.href} className="game-card">
-                <Image loading="lazy" className="thumb" src={g.src} alt={g.alt} width={400} height={250} />
+                <Image loading="lazy" className={`thumb ${g.contain ? "thumb-contain" : ""}`} src={g.src} alt={g.alt} width={400} height={250} />
                 <div className="p-3">
                   <h3 className="font-display font-semibold text-[13px]">{g.name}</h3>
                   <p className="text-[11px] mt-1" style={{ color: "var(--color-muted)" }}>{g.item}</p>
