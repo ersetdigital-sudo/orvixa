@@ -31,11 +31,36 @@ export const metadata: Metadata = {
     "ORVIXA GAMING adalah tempat top up game murah dan terpercaya: top up Mobile Legends, Free Fire, PUBG, Genshin, voucher game, dan produk digital. Proses instan 24 jam, pembayaran QRIS, e-wallet, dan Virtual Account.",
   keywords:
     "top up game, top up game murah, top up game terpercaya, top up diamond, voucher game, top up Mobile Legends, top up Free Fire, top up PUBG, top up Genshin, top up game Indonesia",
+  metadataBase: new URL("https://orvixagaming.net"),
   openGraph: {
     type: "website",
+    url: "https://orvixagaming.net",
+    siteName: "ORVIXA GAMING",
+    locale: "id_ID",
+    title: "ORVIXA GAMING — Top Up Game Murah & Terpercaya",
+    description:
+      "Top up diamond, voucher game, dan produk digital dengan proses instan 24 jam. Pembayaran QRIS, e-wallet, dan Virtual Account.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ORVIXA GAMING — Top Up Game Murah & Terpercaya di Indonesia",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
     title: "ORVIXA GAMING — Top Up Game Murah & Terpercaya",
     description:
       "Top up diamond, voucher game, dan produk digital dengan proses instan 24 jam.",
+    images: ["/og-image.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
 };
 

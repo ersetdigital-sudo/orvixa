@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import SchemaJsonLd from "./SchemaJsonLd";
 
 const BANNERS = [
   {
@@ -93,6 +94,7 @@ export default function HomePage() {
 
   return (
     <>
+      <SchemaJsonLd />
       {/* HERO BANNER CAROUSEL */}
       <section className="relative" aria-label="Banner promo">
         <div className="wrap pt-5 md:pt-7">

@@ -73,10 +73,12 @@ export default function Footer({ variant = "home" }: FooterProps) {
           <ul className="mt-4 space-y-2.5 text-[14px]" style={{ color: "var(--color-muted)" }}>
             {variant === "home" ? (
               <>
-                <li><Link href="/#kategori" className="hover:text-white">Top Up Game</Link></li>
-                <li><Link href="/#voucher" className="hover:text-white">Voucher</Link></li>
-                <li><Link href="/#kategori" className="hover:text-white">Steam Game</Link></li>
-                <li><Link href="/#voucher" className="hover:text-white">Entertainment</Link></li>
+                <li><Link href="/mobile-legends" className="hover:text-white">Mobile Legends</Link></li>
+                <li><Link href="/free-fire" className="hover:text-white">Free Fire</Link></li>
+                <li><Link href="/pubg-mobile" className="hover:text-white">PUBG Mobile</Link></li>
+                <li><Link href="/genshin-impact" className="hover:text-white">Genshin Impact</Link></li>
+                <li><Link href="/magic-chess-go-go" className="hover:text-white">Magic Chess: Go Go</Link></li>
+                <li><Link href="/call-of-duty-mobile" className="hover:text-white">Call of Duty Mobile</Link></li>
               </>
             ) : (
               <>
