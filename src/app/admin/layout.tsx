@@ -16,6 +16,7 @@ const NAV = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   if (pathname === "/admin/login") {
     return <>{children}</>;
@@ -28,11 +29,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="flex min-h-screen" style={{ background: "var(--color-bg)" }}>
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 bg-black/50 md:hidden" onClick={() => setMobileOpen(false)} />
+      )}
+
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex flex-col border-r transition-all duration-200 ${
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r transition-all duration-200 ${
           collapsed ? "w-[68px]" : "w-[240px]"
-        }`}
+        } ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
         style={{ background: "var(--color-surface)", borderColor: "var(--color-line)" }}
       >
         {/* Logo */}
@@ -49,11 +55,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 py-4 px-2 space-y-1">
+        <nav className="flex-1 py-4 px-2 space-y-1 overflow-y-auto">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
+              onClick={() => setMobileOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-[14px] font-medium transition-colors ${
                 isActive(item.href)
                   ? "text-white"
@@ -73,8 +80,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ))}
         </nav>
 
-        {/* Collapse toggle */}
-        <div className="p-2 border-t" style={{ borderColor: "var(--color-line)" }}>
+        {/* Collapse toggle - desktop only */}
+        <div className="p-2 border-t hidden md:block" style={{ borderColor: "var(--color-line)" }}>
           <button
             onClick={() => setCollapsed(!collapsed)}
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-[10px] text-[13px] transition-colors hover:bg-white/5"
@@ -89,8 +96,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main content */}
-      <main className={`flex-1 transition-all duration-200 ${collapsed ? "ml-[68px]" : "ml-[240px]"}`}>
-        <div className="p-6 md:p-8 max-w-[1200px]">{children}</div>
+      <main className={`flex-1 min-w-0 transition-all duration-200 ${collapsed ? "md:ml-[68px]" : "md:ml-[240px]"}`}>
+        {/* Mobile header */}
+        <div className="sticky top-0 z-30 flex items-center h-14 px-4 border-b md:hidden" style={{ background: "var(--color-surface)", borderColor: "var(--color-line)" }}>
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 -ml-2 rounded-[8px] hover:bg-white/5">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" strokeWidth="1.8" strokeLinecap="round">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <span className="ml-3 font-display font-extrabold text-[14px]">ORVIXA<span style={{ color: "var(--color-primary)" }}>.</span></span>
+        </div>
+
+        <div className="p-4 md:p-6 lg:p-8">{children}</div>
       </main>
     </div>
   );
