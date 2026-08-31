@@ -66,20 +66,11 @@ const POPULAR_GAMES = [
   { href: "/genshin-impact", src: "/images/7eb8ddc8-60a4-4794-85bd-ed0fd653defd.jpg", alt: "Top up Genshin Impact", name: "Genshin Impact", item: "Crystal" },
 ];
 
-const FILTERS = [
-  { label: "Semua", value: "all" },
-  { label: "Top Up Game", value: "topup" },
-  { label: "Steam Game", value: "steam" },
-  { label: "Voucher", value: "voucher" },
-  { label: "Entertainment", value: "ent" },
-];
-
 const PAYMENTS = ["QRIS", "GoPay", "DANA", "OVO", "ShopeePay", "LinkAja", "Virtual Account", "Transfer Bank"];
 
 export default function HomePage() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [activeFilter, setActiveFilter] = useState("all");
   const timerRef = useRef<ReturnType<typeof setInterval>>(null);
 
   // Banner carousel
@@ -196,17 +187,9 @@ export default function HomePage() {
             <Link href="#" className="btn btn-ghost h-10 px-4 text-sm">Lihat Semua</Link>
           </div>
 
-          <div className="mt-6 flex gap-2.5 overflow-x-auto pb-1" role="tablist" style={{ scrollbarWidth: "none" }}>
-            {FILTERS.map((f) => (
-              <button key={f.value} className="chip" role="tab" aria-selected={activeFilter === f.value ? "true" : "false"} onClick={() => setActiveFilter(f.value)}>
-                {f.label}
-              </button>
-            ))}
-          </div>
-
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 md:gap-4">
             {GAMES.map((g, i) => (
-              <Link key={i} href={g.href} className="game-card" style={{ display: activeFilter === "all" || g.cat === activeFilter ? "" : "none" }}>
+              <Link key={i} href={g.href} className="game-card">
                 <Image loading="lazy" className="thumb" src={g.src} alt={g.alt} width={400} height={250} />
                 {g.badge && <span className="badge absolute top-2.5 left-2.5" style={g.badgeStyle}>{g.badge}</span>}
                 <div className="p-3">
