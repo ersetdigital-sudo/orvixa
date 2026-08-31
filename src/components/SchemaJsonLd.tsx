@@ -14,7 +14,7 @@ const PRODUCTS = [
   {
     name: "Top Up Diamond Free Fire",
     description: "Top up diamond Free Fire harga murah di ORVIXA GAMING. Harga mulai Rp2.500, proses instan tanpa ribet.",
-    image: "/images/991b8eb7-cf5a-491a-9947-1a2ba05b45d3.jpg",
+    image: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788151808/fceguvbxqtm2hqlotcro.png",
     url: "/free-fire",
     price: 2500,
     brand: "Garena",
