@@ -54,12 +54,12 @@ const GAMES = [
 ];
 
 const POPULAR_GAMES = [
-  { href: "/mobile-legends", src: "/images/3f4dc619-cefc-4b2a-9dce-54e6ef9c20da.jpg", alt: "Top up Mobile Legends diamond", name: "Mobile Legends", publisher: "Moonton", gradient: "linear-gradient(135deg, #2a1a3e 0%, #1a2a4e 100%)" },
-  { href: "/magic-chess-go-go", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788148894/aj4q0rohtu1mfvalbtob.webp", alt: "Top up Magic Chess Go Go token", name: "Magic Chess Go Go", publisher: "Vizta Games", gradient: "linear-gradient(135deg, #4a2a1a 0%, #3a2a2a 100%)" },
-  { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile UC", name: "PUBG Mobile", publisher: "Tencent Games", gradient: "linear-gradient(135deg, #1a3a5a 0%, #1a2a4a 100%)" },
-  { href: "/free-fire", src: "/images/991b8eb7-cf5a-491a-9947-1a2ba05b45d3.jpg", alt: "Top up Free Fire diamond", name: "Free Fire", publisher: "Garena", gradient: "linear-gradient(135deg, #3a1a2a 0%, #2a1a3a 100%)" },
-  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile CP", name: "Call of Duty Mobile", publisher: "Activision", gradient: "linear-gradient(135deg, #2a2a1a 0%, #1a2a2a 100%)" },
-  { href: "/genshin-impact", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788150221/rdbgqzffn1yqinzinjcd.png", alt: "Top up Genshin Impact Crystal", name: "Genshin Impact", publisher: "HoYoverse", gradient: "linear-gradient(135deg, #1a2a3a 0%, #2a1a2a 100%)" },
+  { href: "/mobile-legends", src: "/images/3f4dc619-cefc-4b2a-9dce-54e6ef9c20da.jpg", alt: "Top up Mobile Legends diamond", name: "Mobile Legends", publisher: "Moonton", gradient: "linear-gradient(135deg, #3b2060 0%, #1e2d5a 100%)" },
+  { href: "/magic-chess-go-go", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788148894/aj4q0rohtu1mfvalbtob.webp", alt: "Top up Magic Chess Go Go token", name: "Magic Chess Go Go", publisher: "Vizta Games", gradient: "linear-gradient(135deg, #a07050 0%, #c09070 100%)" },
+  { href: "/pubg-mobile", src: "/images/173d0489-e4bc-41a4-80b4-24c25887d559.png", alt: "Top up PUBG Mobile UC", name: "PUBG Mobile", publisher: "Tencent Games", gradient: "linear-gradient(135deg, #2050a0 0%, #3060c0 100%)" },
+  { href: "/free-fire", src: "/images/991b8eb7-cf5a-491a-9947-1a2ba05b45d3.jpg", alt: "Top up Free Fire diamond", name: "Free Fire", publisher: "Garena", gradient: "linear-gradient(135deg, #803050 0%, #a04060 100%)" },
+  { href: "/call-of-duty-mobile", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788146538/gldlmfh4plno7cpzy1ra.jpg", alt: "Top up Call of Duty Mobile CP", name: "Call of Duty Mobile", publisher: "Activision", gradient: "linear-gradient(135deg, #404030 0%, #505040 100%)" },
+  { href: "/genshin-impact", src: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1788150221/rdbgqzffn1yqinzinjcd.png", alt: "Top up Genshin Impact Crystal", name: "Genshin Impact", publisher: "HoYoverse", gradient: "linear-gradient(135deg, #2a4060 0%, #3a5080 100%)" },
 ];
 
 const PAYMENTS = ["QRIS", "GoPay", "DANA", "OVO", "ShopeePay", "LinkAja", "Virtual Account", "Transfer Bank"];
@@ -298,20 +298,20 @@ export default function HomePage() {
               <Link
                 key={i}
                 href={g.href}
-                className="flex items-center gap-4 p-3 rounded-[14px] transition-all hover:scale-[1.02]"
-                style={{ background: g.gradient, border: "1px solid var(--color-line)" }}
+                className="flex items-center gap-4 p-3 pr-6 rounded-[16px] transition-all hover:brightness-110"
+                style={{ background: g.gradient }}
               >
                 <Image
                   loading="lazy"
-                  className="w-[72px] h-[72px] rounded-[10px] object-cover shrink-0"
+                  className="w-[76px] h-[76px] rounded-[12px] object-cover shrink-0"
                   src={g.src}
                   alt={g.alt}
-                  width={72}
-                  height={72}
+                  width={76}
+                  height={76}
                 />
-                <div>
-                  <h3 className="font-display font-semibold text-[15px] text-white">{g.name}</h3>
-                  <p className="text-[13px] mt-0.5" style={{ color: "rgba(255,255,255,.6)" }}>{g.publisher}</p>
+                <div className="min-w-0">
+                  <h3 className="font-display font-semibold text-[15px] text-white leading-tight">{g.name}</h3>
+                  <p className="text-[13px] mt-1 text-white/60">{g.publisher}</p>
                 </div>
               </Link>
             ))}
