@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import GameThumbnail from "./GameThumbnail";
@@ -13,6 +13,11 @@ interface Field {
 interface Nominal {
   label: string;
   price: number;
+}
+
+interface PaymentMethod {
+  label: string;
+  fee: number;
 }
 
 interface GameDetailProps {
@@ -34,13 +39,8 @@ interface GameDetailProps {
   summaryGame: string;
 }
 
-const PAYMENTS = [
+const FALLBACK_PAYMENTS: PaymentMethod[] = [
   { label: "QRIS", fee: 0 },
-  { label: "DANA", fee: 0 },
-  { label: "GoPay", fee: 0 },
-  { label: "OVO", fee: 0 },
-  { label: "ShopeePay", fee: 0 },
-  { label: "Virtual Account", fee: 4000 },
 ];
 
 const OTHER_GAMES = [
@@ -63,9 +63,24 @@ export default function GameDetailPage(props: GameDetailProps) {
   const [fieldErrors, setFieldErrors] = useState<boolean[]>(props.fields.map(() => false));
   const [buyMsg, setBuyMsg] = useState("Pastikan data akun sudah benar sebelum membayar.");
   const [buyMsgColor, setBuyMsgColor] = useState("var(--color-muted)");
+  const [payments, setPayments] = useState<PaymentMethod[]>(FALLBACK_PAYMENTS);
+
+  useEffect(() => {
+    fetch("/api/payments")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.methods) {
+          const active = data.methods
+            .filter((m: { active: boolean }) => m.active)
+            .map((m: { name: string }) => ({ label: m.name, fee: 0 }));
+          if (active.length > 0) setPayments(active);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const price = props.nominals[selectedNom].price;
-  const fee = PAYMENTS[selectedPay].fee;
+  const fee = payments[selectedPay]?.fee || 0;
 
   function handleBuy() {
     const errors = fieldValues.map((v) => !v.trim());
@@ -158,7 +173,7 @@ export default function GameDetailPage(props: GameDetailProps) {
             <div className="sect">
               <div className="flex items-center gap-2.5"><span className="step-num">3</span><h2 className="font-display font-bold text-[16px] md:text-[18px]">Metode pembayaran</h2></div>
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5" role="radiogroup" aria-label="Metode pembayaran">
-                {PAYMENTS.map((p, i) => (
+                {payments.map((p, i) => (
                   <button key={i} className="pm" role="radio" aria-checked={i === selectedPay ? "true" : "false"} onClick={() => setSelectedPay(i)}>
                     <span className="w-2 h-2 rounded-full" style={{ background: "var(--color-primary)" }} />
                     {p.label}
@@ -191,7 +206,7 @@ export default function GameDetailPage(props: GameDetailProps) {
               <div className="mt-4 space-y-2.5 text-[13.5px]">
                 <div className="flex justify-between gap-3"><span style={{ color: "var(--color-muted)" }}>Game</span><span className="font-semibold text-right">{props.summaryGame}</span></div>
                 <div className="flex justify-between gap-3"><span style={{ color: "var(--color-muted)" }}>Item</span><span className="font-semibold text-right">{props.nominals[selectedNom].label}</span></div>
-                <div className="flex justify-between gap-3"><span style={{ color: "var(--color-muted)" }}>Pembayaran</span><span className="font-semibold text-right">{PAYMENTS[selectedPay].label}</span></div>
+                <div className="flex justify-between gap-3"><span style={{ color: "var(--color-muted)" }}>Pembayaran</span><span className="font-semibold text-right">{payments[selectedPay]?.label || ""}</span></div>
                 <div className="flex justify-between gap-3"><span style={{ color: "var(--color-muted)" }}>Biaya layanan</span><span className="font-semibold text-right">{money(fee)}</span></div>
               </div>
               <div className="rule my-4" />
